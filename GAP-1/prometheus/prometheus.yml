@@ -53,8 +53,26 @@ scrape_configs:
     - target_label: __address__
       replacement: "blackbox:9115"  # Blackbox exporter.
 
+- job_name: wordpress_exporter
+  honor_timestamps: true
+  scrape_interval: 60s
+  scrape_timeout: 15s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+    - targets:
+      - wordpress_exporter:8888
+
 - job_name: 'mysql-exporter'
   metrics_path: /metrics
   static_configs:
     - targets:
       - mysql-exporter:9104
+
+- job_name: 'cadvisor-exporter'
+  scrape_interval: 1s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+    - targets:
+      - cadvisor-exporter:8080
